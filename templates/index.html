@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BJT DC Bias — Voltage Divider (NPN)</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="page">
+    <header class="page__header">
+      <p class="eyebrow">ENG29 2121 · Lab 02</p>
+      <h1>BJT DC Bias — Voltage Divider (NPN)</h1>
+      <p class="subtitle">Forward-active approximation · Common-Emitter</p>
+    </header>
+
+    <div class="layout">
+      {% if errors %}
+      <ul class="alert alert--error" role="alert">
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <section class="panel panel--input">
+        <h2>Inputs</h2>
+        <form class="form" method="post" action="/calculate">
+          <div class="field">
+            <label for="vcc">VCC</label>
+            <input id="vcc" name="vcc" type="text" inputmode="decimal" value="{{ form.vcc }}">
+            <span class="unit">V</span>
+          </div>
+          <div class="field">
+            <label for="r1">R1</label>
+            <input id="r1" name="r1" type="text" inputmode="decimal" value="{{ form.r1 }}">
+            <span class="unit">kΩ</span>
+          </div>
+          <div class="field">
+            <label for="r2">R2</label>
+            <input id="r2" name="r2" type="text" inputmode="decimal" value="{{ form.r2 }}">
+            <span class="unit">kΩ</span>
+          </div>
+          <div class="field">
+            <label for="rc">RC</label>
+            <input id="rc" name="rc" type="text" inputmode="decimal" value="{{ form.rc }}">
+            <span class="unit">kΩ</span>
+          </div>
+          <div class="field">
+            <label for="re">RE</label>
+            <input id="re" name="re" type="text" inputmode="decimal" value="{{ form.re }}">
+            <span class="unit">kΩ</span>
+          </div>
+          <div class="field">
+            <label for="beta">β</label>
+            <input id="beta" name="beta" type="text" inputmode="decimal" value="{{ form.beta }}">
+            <span class="unit"></span>
+          </div>
+          <div class="field">
+            <label for="vbe">VBE</label>
+            <input id="vbe" name="vbe" type="text" inputmode="decimal" value="{{ form.vbe }}">
+            <span class="unit">V</span>
+          </div>
+          <button class="button" type="submit">Calculate DC Bias</button>
+        </form>
+      </section>
+
+      <section class="panel panel--result">
+        <h2>DC Operating Point</h2>
+        {% if result %}
+        <p class="badge badge--{{ result.region }}">{{ display.region | upper }} REGION</p>
+        {% if result.warnings %}
+        <ul class="alert alert--warning" role="status">
+          {% for warning in result.warnings %}
+          <li>{{ warning }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        <table class="results">
+          <tbody>
+            <tr><th>VB</th><td>{{ display.vb }}</td></tr>
+            <tr><th>VE</th><td>{{ display.ve }}</td></tr>
+            <tr><th>VC</th><td>{{ display.vc }}</td></tr>
+            <tr><th>VCE</th><td>{{ display.vce }}</td></tr>
+            <tr><th>IC</th><td>{{ display.ic }}</td></tr>
+            <tr><th>IB</th><td>{{ display.ib }}</td></tr>
+            <tr><th>IE</th><td>{{ display.ie }}</td></tr>
+          </tbody>
+        </table>
+        {% else %}
+        <p class="placeholder">กรอกค่าแล้วกด Calculate DC Bias</p>
+        {% endif %}
+      </section>
+    </div>
+  </main>
+</body>
+</html>
